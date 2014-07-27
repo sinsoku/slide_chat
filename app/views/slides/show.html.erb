@@ -20,13 +20,10 @@
   <% end %>
 
   <%= f.text_field :slide_id, value: @slide.id, hidden: true %>
+  <%= f.text_field :page_number, value: 1, hidden: true %>
   <div class="field">
     <%= f.label :content %><br>
     <%= f.text_field :content %>
-  </div>
-  <div class="field">
-    <%= f.label :page_number %><br>
-    <%= f.text_field :page_number %>
   </div>
   <div class="actions">
     <%= f.submit %>
