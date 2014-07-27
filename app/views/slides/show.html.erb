@@ -6,7 +6,7 @@
 </p>
 <iframe src="/slideshow/<%= @slide.slideshare_id %>" width="427" height="356" frameborder="0" marginwidth="0" marginheight="0" scrolling="no" style="border:1px solid #CCC; border-width:1px; margin-bottom:5px; max-width: 100%;" allowfullscreen></iframe>
 
-<%= form_for(@comment) do |f| %>
+<%= form_for(@comment, remote: true) do |f| %>
   <% if @comment.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@comment.errors.count, "error") %> prohibited this slide from being saved:</h2>
@@ -35,7 +35,7 @@
 <%= link_to 'Back', slides_path %>
 
 <ul>
-<% @slide.comments.each do |commnet| %>
+<% @slide.comments.where(page_number: 1).each do |commnet| %>
   <li><%= commnet.page_number %>: <%= commnet.content %></li>
 <% end %>
 </ul>
