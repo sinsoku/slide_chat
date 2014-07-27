@@ -15,6 +15,6 @@ class CommentsController < ApplicationController
 
   private
     def comment_params
-      params.require(:comment).permit(:content, :slide_id)
+      params.require(:comment).permit(:content, :slide_id, :page_number)
     end
 end

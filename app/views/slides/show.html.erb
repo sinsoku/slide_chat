@@ -24,6 +24,10 @@
     <%= f.label :content %><br>
     <%= f.text_field :content %>
   </div>
+  <div class="field">
+    <%= f.label :page_number %><br>
+    <%= f.text_field :page_number %>
+  </div>
   <div class="actions">
     <%= f.submit %>
   </div>
@@ -35,6 +39,6 @@
 
 <ul>
 <% @slide.comments.each do |commnet| %>
-  <li><%= commnet.content %></li>
+  <li><%= commnet.page_number %>: <%= commnet.content %></li>
 <% end %>
 </ul>
