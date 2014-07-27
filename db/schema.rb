@@ -11,7 +11,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140727052023) do
+ActiveRecord::Schema.define(version: 20140727062214) do
+
+  create_table "comments", force: true do |t|
+    t.text     "content"
+    t.integer  "slide_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "comments", ["slide_id"], name: "index_comments_on_slide_id"
 
   create_table "slides", force: true do |t|
     t.string   "url"
