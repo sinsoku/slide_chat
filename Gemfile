@@ -41,3 +41,7 @@ gem 'spring',        group: :development
 group :development, :test do
   gem 'rspec-rails', '~> 3.0.0'
 end
+
+gem 'thin', '~> 1.6.2'
+gem 'sinatra'
+gem 'em-websocket'
