@@ -1,12 +1,17 @@
 <p id="notice"><%= notice %></p>
 
-<p>
-  <strong>Url:</strong>
-  <%= @slide.url %>
-</p>
-<iframe src="/slideshow/<%= @slide.slideshare_id %>" width="427" height="356" frameborder="0" marginwidth="0" marginheight="0" scrolling="no" style="border:1px solid #CCC; border-width:1px; margin-bottom:5px; max-width: 100%;" allowfullscreen></iframe>
+<div class="container">
+  <div class="slide">
+    <div><%= link_to @slide.url, @slide.url %></div>
+    <iframe src="/slideshow/<%= @slide.slideshare_id %>" width="427" height="356" frameborder="0" marginwidth="0" marginheight="0" scrolling="no" style="border:1px solid #CCC; border-width:1px; margin-bottom:5px; max-width: 100%;" allowfullscreen></iframe>
+  </div>
 
-<%= form_for(@comment, remote: true) do |f| %>
+  <div class="comments">
+    <h2>Comments</h2>
+  </div>
+</div>
+
+<%= form_for([@slide, @comment], remote: true) do |f| %>
   <% if @comment.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@comment.errors.count, "error") %> prohibited this slide from being saved:</h2>
@@ -19,23 +24,15 @@
     </div>
   <% end %>
 
-  <%= f.text_field :slide_id, value: @slide.id, hidden: true %>
   <%= f.text_field :page_number, value: 1, hidden: true %>
-  <div class="field">
-    <%= f.label :content %><br>
+
+  <div class="new-comment">
+    <span>Comment:</span>
     <%= f.text_field :content %>
-  </div>
-  <div class="actions">
-    <%= f.submit %>
+    <%= f.submit '送信' %>
   </div>
 <% end %>
 
 
 <%= link_to 'Edit', edit_slide_path(@slide) %> |
 <%= link_to 'Back', slides_path %>
-
-<ul>
-<% @slide.comments.where(page_number: 1).each do |commnet| %>
-  <li><%= commnet.page_number %>: <%= commnet.content %></li>
-<% end %>
-</ul>
