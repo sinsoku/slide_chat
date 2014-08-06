@@ -1,6 +1,11 @@
 class CommentsController < ApplicationController
+
+  def index
+    @comments = slide.comments.order('page_number ASC')
+  end
+
   def create
-    @comment = Comment.new(comment_params)
+    @comment = slide.comments.new(comment_params)
 
     respond_to do |format|
       if @comment.save
@@ -14,6 +19,10 @@ class CommentsController < ApplicationController
   end
 
   private
+    def slide
+      @slide ||= Slide.find_by!(id: params[:slide_id])
+    end
+
     def comment_params
       params.require(:comment).permit(:content, :slide_id, :page_number)
     end

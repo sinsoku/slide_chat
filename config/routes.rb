@@ -1,9 +1,9 @@
 Rails.application.routes.draw do
   get 'comments/create'
 
-  resources :slides
-
-  resources :comments, only: :create
+  resources :slides do
+    resources :comments, only: [:index, :create]
+  end
 
   get 'slideshow/:id' => 'slideshow#embed_code'
   # The priority is based upon order of creation: first created -> highest priority.
