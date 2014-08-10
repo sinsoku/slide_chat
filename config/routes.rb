@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  root 'slides#index'
+
   get 'comments/create'
 
   resources :slides do
