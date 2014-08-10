@@ -8,7 +8,7 @@ findOrCreateCommentArea = (comment) ->
     $(".comments").append(ul)
   else if $(".comments ul[page=#{comment.page_number}]").size() == 0
     pages = $(".comments ul").filter (index) ->
-      $(@).attr('page') < comment.page_number
+      parseInt($(@).attr('page')) < comment.page_number
 
     if pages.size() == 0
       $(".comments").append(ul)
@@ -22,8 +22,19 @@ addComment = (comment) ->
 
 $(document).on 'page:change', ->
   if $('.slide').size() > 0
-    $('#new_comment').bind 'ajax:complete', ->
+    dispatcher = new WebSocketRails("#{location.host}/websocket")
+    channel = dispatcher.subscribe($('#comment_slide_id').val())
+    channel.bind 'new', addComment
+
+    $('#new_comment input[type=submit]').click ->
+      comment = {
+        slide_id: $('#comment_slide_id').val(),
+        page_number: $('#comment_page_number').val(),
+        content: $('#comment_content').val()
+      }
+      channel.trigger('new', comment)
       $('#comment_content').val('')
+      false
 
     $.ajax "#{location.pathname}/comments.json"
       .done (json) ->
