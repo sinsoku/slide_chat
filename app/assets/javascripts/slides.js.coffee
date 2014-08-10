@@ -36,3 +36,8 @@ $(document).on 'page:change', ->
       $(".comments ul[page=#{page_num}]").addClass('active')
       $(".comments ul[page!=#{page_num}]").removeClass('active')
     , 1000
+
+    source = new EventSource "#{location.pathname}/comments/stream"
+    source.addEventListener 'message', (e) ->
+      comment = $.parseJSON(e.data)
+      addComment(comment)

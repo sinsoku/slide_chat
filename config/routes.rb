@@ -4,7 +4,9 @@ Rails.application.routes.draw do
   get 'comments/create'
 
   resources :slides do
-    resources :comments, only: [:index, :create]
+    resources :comments, only: [:index, :create] do
+      get 'stream', on: :collection
+    end
   end
 
   get 'slideshow/:id' => 'slideshow#embed_code'

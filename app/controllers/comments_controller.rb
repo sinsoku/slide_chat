@@ -1,4 +1,5 @@
 class CommentsController < ApplicationController
+  include ActionController::Live
 
   def index
     @comments = slide.comments.order('page_number ASC')
@@ -16,6 +17,20 @@ class CommentsController < ApplicationController
         format.json { render json: @comment.errors, status: :unprocessable_entity }
       end
     end
+  end
+
+  def stream
+    response.headers['Content-Type'] = 'text/event-stream'
+    sse = SSE.new(response.stream)
+    redis = Redis.new
+
+    redis.subscribe("#{params[:slide_id]}.new_comment") do |on|
+      on.message do |event, data|
+        sse.write(data)
+      end
+    end
+  ensure
+    response.stream.close
   end
 
   private
